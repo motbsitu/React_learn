@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://unpkg.com/react@15/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.min.js"></script> -->
+    <meta charset="utf-8">
+    <title></title>
+
+  </head>
+  <body>
+    <div id="react-container1"></div>
+
+    <div id="react-container2"></div>
+
+    <div id="react-container3"></div>
+
+    <div id="react-container4"></div>
+
+    <div id="react-container5"></div>
+
+    <div id="react-container6"></div>
+
+    <script type="text/babel">
+      ReactDOM.render(React.createElement('div', null, 'Hello World'),
+      document.getElementById('react-container1'))
+
+      // ReactDOM.render(React.createElement('ul', null,
+      //   React.createElement('li', null, 'item 1'),
+      //   React.createElement('li', null, 'item 2'),
+      //   React.createElement('li', null, 'item 3')),
+      // document.getElementById('react-container2'))
+
+      ReactDOM.render(<ul>
+          <li> Item 1</li>
+          <li> Item 2</li>
+          <li> Item 3</li>
+        </ul>,
+      document.getElementById('react-container2'))
+
+
+      var MyComponent = React.createClass({
+        render() {
+          return <div>
+            <h1>Second Hello World</h1>
+            <p> React Component Here!</p>
+          </div>
+        }
+      });
+
+      ReactDOM.render(<MyComponent/>,
+        document.getElementById('react-container3'))
+
+
+    //refactor as ES6 class
+    class MyNewComponent extends React.Component {
+        render() {
+        return <div>
+          <h2>Third Hello World</h2>
+          <p>Another React Component Here!</p>
+        </div>
+      }
+    }
+
+    ReactDOM.render(<MyNewComponent/>,
+      document.getElementById('react-container4'))
+
+
+  //stateless function compenent
+    const MyComponentThree = () => {
+      return <div>
+        <h3>Fourth Hello World</h3>
+        <p> And Another React Component Here!</p>
+      </div>
+    }
+
+    ReactDOM.render(<MyComponentThree/>,
+      document.getElementById('react-container5'))
+
+
+  //Properties
+
+    var MyComponentFour = React.createClass({
+      render() {
+        return <div>
+          <h1>{this.props.text}</h1>
+          <p> {this.props.children}</p>
+        </div>
+      }
+    });
+
+    ReactDOM.render(<div>
+      <MyComponentFour text="Adding Properties">This is message 1</MyComponentFour>
+      <MyComponentFour text="Adding Properties 2">This is message 2</MyComponentFour>
+      <MyComponentFour text="Adding Properties 3">This is message 3</MyComponentFour>
+      </div>,
+      document.getElementById('react-container6'))
+
+
+    </script>
+
+
+
+
+  </body>
+</html>
