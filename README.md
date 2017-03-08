@@ -17,3 +17,7 @@
 
 - Properties - similar to adding attributes in HTML
   - add with text property(this.props.text), or close tag and add content (this.props.children).
+
+- Events
+
+- State
