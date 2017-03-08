@@ -21,3 +21,7 @@
 - Events
 
 - State
+
+- Refs to access input value to save
+
+- prop types
