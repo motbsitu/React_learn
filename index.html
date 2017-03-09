@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <meta charset="utf-8">
-    <title></title>
+    <title>Notes</title>
 
   </head>
   <body>
@@ -18,23 +18,39 @@
         getInitialState(){
           return {editing: false}
         },
+        componentWillMount(){
+          //add style to post notes randomly on screen
+          this.style = {
+            right: this.randomBetween(0, window.innerWidth - 150, 'px'),
+            top: this.randomBetween(0, window.innerHeight - 150, 'px')
+          }
+        },
+
+//use case for key - generate random number
+        randomBetween(x, y, s){
+          return (x + Math.ceil(Math.random() * (y-x))) + s
+        },
         edit(){
           // alert("Editing Note")
           this.setState({editing: true})
         },
         save(){
-          var val = this.refs.newText.value;
-          alert("later will be new value: " + val)
+          // var val = this.refs.newText.value;
+          // alert("later will be new value: " + val)
+          // this.setState({editing: false})
+          this.props.onChange(this.refs.newText.value, this.props.id)
           this.setState({editing: false})
         },
         remove(){
-          alert("Removing Note")
+          // alert("Removing Note")
+          this.props.onRemove(this.props.id)
         },
 
       //render form
         renderForm(){
           return(
-            <div className="note">
+            <div className="note"
+                style={this.style}>
               <textarea ref="newText"></textarea>
               <button onClick={this.save}>Save</button>
             </div>
@@ -44,7 +60,8 @@
       //render note
         renderDisplay(){
           return (
-            <div className="note">
+            <div className="note"
+                  style={this.style}>
               <p>{this.props.children}</p>
               <span>
                 <button onClick={this.edit}>EDIT</button>
@@ -71,15 +88,65 @@
               }
           }
         },
+        getInitialState(){
+          return {
+            notes: []
+          }
+        },
+        nextID(){
+          this.uniqueID = this.uniqueID || 0
+          return this.uniqueID++
+        },
+        add(text){
+          var notes = [
+            ...this.state.notes,
+            {
+              id: this.nextID(),
+              note: text
+            }
+          ]
+          this.setState({notes})
+        },
+        //Update Notes
+        // arrow function take in notes - if id of note being edited
+        // is not the note then return note
+        // Otherwise return a new object - using the spread operator to push current text
+        // Then set the new text to note
+        update(newText, id){
+          var notes = this.state.notes.map(
+            note => (note.id !== id) ?
+              note :
+              {
+                ...note,
+                note: newText
+              }
+            )
+          this.setState({notes})
+        },
+        //Remove notes
+        remove(id){
+          // filter copy of notes array, only return items when logical test passes
+          var notes = this.state.notes.filter(note => note.id !== id)
+          this.setState({notes})
+        },
+        eachNote(note){
+          return (<Note key={note.id}
+                        id ={note.id}
+                        onChange={this.update}
+                        onRemove={this.remove}>
+                        {note.note}
+                  </Note>)
+        },
+
+        //display notes dynamically base on # of notes in state
           render(){
             return(<div className='board'>
-              {this.props.count}
-              </div>)
+                      {this.state.notes.map(this.eachNote)}
+                      <button onClick={()=>this.add('New Note')}>+Add Note+</button>
+                  </div>)
           }
-
       })
-
-      ReactDOM.render(<Board count={5000}/>,
+      ReactDOM.render(<Board count={10}/>,
           document.getElementById('react-container'))
 
 
