@@ -18,3 +18,7 @@
 - Prop types
 - Parent and child components
 - Keys are important for Component Lifecycle methods
+- Component Lifecycle
+  - mounting (getInitialState, componentWillMount, render, componentDidMount )
+  - updating (componentWillReceiveProps, shouldComponentUpdate, componentWillUpdate, render, componentDidUpdate)
+  - componentWillUnmount

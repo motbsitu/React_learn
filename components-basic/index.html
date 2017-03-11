@@ -23,6 +23,8 @@
     <div id="react-container6"></div>
 
     <div id="react-container7"></div>
+    <div id="react-container8"></div>
+
 
     <script type="text/babel">
       ReactDOM.render(React.createElement('div', null, 'Hello World'),
@@ -125,6 +127,53 @@
       })
       ReactDOM.render(<Checkbox/>,
         document.getElementById('react-container7'))
+
+
+        var Box = React.createClass({
+          // componentWillMount(){
+          //   alert('Component is about to mount')
+          // },
+          // componentDidMount(){
+          //   alert('Component did mount')
+          // },
+
+          // getDefaultProps(){
+          //   return{
+          //     backgroundColor: 'red',
+          //     height: 200,
+          //     width: 200
+          //   }
+            getInitialState(){
+              return{
+                backgroundColor: 'red',
+                height: 200,
+                width: 200
+              }
+          },
+
+          update(){
+            this.setState({backgroundColor: 'purple'})
+          },
+          componentDidUpdate(){
+            alert('component did update')
+          },
+          render(){
+            return (<div style={this.state}
+                      onClick={this.update}></div> )
+          }
+        });
+        ReactDOM.render(<Box />,
+          document.getElementById('react-container8'))
+
+        // var getRidOfBox = document.getElementById('myDiv')
+        //
+        // getRidOfBox.onclick = function(){
+        //     ReactDOM.unmountComponentAtNode(
+        //       document.getElementById('react-container8'))
+        //     alert('component is unmounted')
+        //   }
+
+
     </script>
 
 
