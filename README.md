@@ -22,3 +22,6 @@
   - mounting (getInitialState, componentWillMount, render, componentDidMount )
   - updating (componentWillReceiveProps, shouldComponentUpdate, componentWillUpdate, render, componentDidUpdate)
   - componentWillUnmount
+  - React libraries :
+    - fetch - to work with api
+    - draggable - wrap component in another component

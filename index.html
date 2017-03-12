@@ -4,6 +4,8 @@
     <script src="https://unpkg.com/react@15/dist/react.js"></script>
     <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/1.0.0/fetch.js"></script>
+    <script src="https://npmcdn.com/react-draggable"></script>
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <meta charset="utf-8">
@@ -24,6 +26,19 @@
             right: this.randomBetween(0, window.innerWidth - 150, 'px'),
             top: this.randomBetween(0, window.innerHeight - 150, 'px')
           }
+        },
+
+        componentDidUpdate(){
+          if (this.state.editing){
+            this.refs.newText.focus()
+            this.refs.newText.select()
+          }
+        },
+
+        //takes in new props/new state and if changes
+        //will re-render and if not will not re-render
+        shouldComponentUpdate(nextProps, nextState){
+          return this.props.children !== nextProps.children || this.state !== nextState
         },
 
 //use case for key - generate random number
@@ -51,7 +66,8 @@
           return(
             <div className="note"
                 style={this.style}>
-              <textarea ref="newText"></textarea>
+              <textarea ref="newText"
+                        defaultValue={this.props.children}></textarea>
               <button onClick={this.save}>Save</button>
             </div>
           )
@@ -73,8 +89,10 @@
       //logic to display form or note
         render(){
           //if this true      then   do this   else the next line
-          return (this.state.editing) ? this.renderForm()
-                            : this.renderDisplay()
+          return <ReactDraggable>
+            {((this.state.editing) ? this.renderForm()
+                            : this.renderDisplay())}
+                  </ReactDraggable>
         }
         })
         var Board = React.createClass({
@@ -93,6 +111,21 @@
             notes: []
           }
         },
+
+        componentWillMount(){
+          if (this.props.count){
+            var url = `http://baconipsum.com/api/?type=all-meat&sentences=${this.props.count}`
+            fetch(url)
+                .then(results => results.json())
+                .then(array => array[0])
+                .then(text => text.split('. '))
+                .then(array => array.forEach(sentence => this.add(sentence)))
+                .catch(function(err){
+                  console.log("didn't connect to API", err)
+                })
+          }
+        },
+
         nextID(){
           this.uniqueID = this.uniqueID || 0
           return this.uniqueID++
