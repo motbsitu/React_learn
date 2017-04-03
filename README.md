@@ -1,4 +1,4 @@
-#React.js
+# React.js
 - User interface library
 - Developed at Facebook
 - Single page applications
@@ -26,8 +26,11 @@
     - fetch - to work with api
     - draggable - wrap component in another component
 
-##Create React App
+## Create React App
 - sudo npm install -g create-react-app
 - change to directory want to create in
 - create-react-app name-project
 - npm start
+
+## Production build
+- npm run build
